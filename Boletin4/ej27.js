@@ -24,9 +24,6 @@ class Persona{
 class Alumno extends Persona{
     constructor(nombre,apellido,dni,curso,notas) {
         super(nombre,apellido,dni)
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
         this.curso = curso;
         this.notas = notas;
     }
@@ -41,6 +38,10 @@ class Alumno extends Persona{
 
     devolverDNI() {
         return this.dni;
+    }
+
+    devolverApellido() {
+        return
     }
 
 }
@@ -73,25 +74,38 @@ class Aula {
 
     busquedaDNI(dni) {
         let busqueda;
-        for (let alumno of this.alumnosArray) {
-            if (alumno.devolverDNI() == dni) {
-                busqueda = alumno;
-            }
-        }
+        //for (let alumno of this.alumnosArray) {
+        //    if (alumno.devolverDNI() == dni) {
+        //        busqueda = alumno;
+        //    }
+        //}
+        busqueda = this.alumnosArray.find(alumnos => alumnos.devolverDNI() == dni)
         return busqueda;
     }
 
     ordenarNotas(dni) {
         let busqueda, notasOrdenadas = new Map();
         busqueda = this.busquedaDNI(dni)
-        notasOrdenadas = [...busqueda.notas].sort((a, b) => String(a[1]).localeCompare(b[1]))
+        notasOrdenadas = [...busqueda.notas].sort((a, b) => a[1] - b[1]).reverse();
         return notasOrdenadas
+    }
+
+    ordenarApellidos() {
+        return this.alumnosArray.sort((a,b) => a.apellido.localeCompare(b.apellido));
+    }
+
+    alumnosToString() {
+        let registro;
+        for (let alumno of this.alumnosArray) {
+            registro = `Nombre: ${alumno.apellido}`
+        }
     }
 
 }
 
 let aula1 = new Aula(alumnos);
-
-console.log(aula1.ordenarNotas("12345678D"));
-
+console.log(aula1.busquedaDNI("12345678A"))
+console.log(aula1.ordenarNotas("12345678A"));
+console.log(aula1.ordenarApellidos())
+console.log(aula1.alumnosToString())
  //https://stackoverflow.com/questions/31158902/is-it-possible-to-sort-a-es6-map-object
